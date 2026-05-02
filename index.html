@@ -5,35 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Pro | IT Test Platform</title>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0f172a; color: #e2e8f0; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; }
-        .app-container { max-width:900px; width:100%; background:#1e293b; border-radius:24px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); padding:30px; }
-        .screen { transition:all 0.3s ease; }
-        .hidden { display:none; }
-        header { text-align:center; margin-bottom:30px; }
-        h1 { font-size:2.5rem; background:linear-gradient(135deg, #60a5fa, #a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:10px; }
-        .menu-card h3 { text-align:center; margin-bottom:20px; color:#cbd5e1; }
-        .grid-menu { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); gap:15px; }
-        .grid-menu button { background:#334155; border:none; padding:15px; border-radius:16px; color:white; font-size:1.1rem; font-weight:bold; cursor:pointer; transition:all 0.2s; }
-        .grid-menu button:hover { background:#475569; transform:translateY(-2px); }
-        .quiz-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
-        .progress-bar { flex:1; height:10px; background:#334155; border-radius:10px; overflow:hidden; }
-        #bar-fill { width:0%; height:100%; background:linear-gradient(90deg, #3b82f6, #8b5cf6); transition:width 0.3s; }
-        #question-box { background:#0f172a; border-radius:20px; padding:25px; margin:20px 0; }
-        #q-text { font-size:1.4rem; margin-bottom:25px; line-height:1.4; }
-        .options-grid { display:flex; flex-direction:column; gap:12px; }
-        .option-item { background:#334155; padding:14px 20px; border-radius:14px; cursor:pointer; transition:all 0.2s; border:1px solid transparent; }
-        .option-item:hover { background:#475569; border-color:#3b82f6; }
-        .option-item.correct { background:#10b981 !important; border-color:#059669; }
-        .option-item.wrong { background:#ef4444 !important; border-color:#dc2626; }
-        .quiz-footer { display:flex; justify-content:center; margin-top:20px; }
-        #next-btn { background:linear-gradient(135deg, #3b82f6, #8b5cf6); border:none; padding:12px 32px; border-radius:40px; color:white; font-size:1.1rem; font-weight:bold; cursor:pointer; transition:transform 0.2s; }
-        #next-btn:hover { transform:scale(1.02); }
-        .result-card { text-align:center; padding:20px; }
-        .score-circle { width:150px; height:150px; background:linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:30px auto; font-size:3rem; font-weight:bold; color:white; }
-        .result-card button { background:#334155; border:none; padding:12px 24px; border-radius:30px; color:white; font-size:1rem; cursor:pointer; margin-top:20px; }
-        @media (max-width:600px) { .app-container { padding:20px; } .grid-menu { grid-template-columns:repeat(2,1fr); } }
-    </style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    
+    /* Негізгі фонды ақшыл сұр немесе таза ақ қылу */
+    body { 
+        font-family: 'Segoe UI', Tahoma, sans-serif; 
+        background: #f8fafc; /* Өте ақшыл фон */
+        color: #1e293b; /* Мәтін түсі қою */
+        min-height:100vh; 
+        display:flex; 
+        justify-content:center; 
+        align-items:center; 
+        padding:20px; 
+    }
+
+    /* Контейнер түсі ақ */
+    .app-container { 
+        max-width:900px; 
+        width:100%; 
+        background:#ffffff; 
+        border-radius:24px; 
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+        padding:30px; 
+    }
+
+    .screen { transition:all 0.3s ease; }
+    .hidden { display:none; }
+    
+    header { text-align:center; margin-bottom:30px; }
+    
+    /* Тақырып түсін көкшіл градиент қалдырамыз */
+    h1 { 
+        font-size:2.5rem; 
+        background:linear-gradient(135deg, #2563eb, #7c3aed); 
+        -webkit-background-clip:text; 
+        -webkit-text-fill-color:transparent; 
+        margin-bottom:10px; 
+    }
+
+    .menu-card h3 { text-align:center; margin-bottom:20px; color:#475569; }
+
+    /* Батырмалар стилі */
+    .grid-menu { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); gap:15px; }
+    .grid-menu button { 
+        background:#eff6ff; 
+        border:1px solid #dbeafe;
+        padding:15px; 
+        border-radius:16px; 
+        color:#2563eb; 
+        font-size:1.1rem; 
+        font-weight:bold; 
+        cursor:pointer; 
+        transition:all 0.2s; 
+    }
+    .grid-menu button:hover { background:#dbeafe; transform:translateY(-2px); }
+
+    .quiz-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px; color: #64748b; }
+    
+    /* Прогресс бар */
+    .progress-bar { flex:1; height:10px; background:#f1f5f9; border-radius:10px; overflow:hidden; }
+    #bar-fill { width:0%; height:100%; background:linear-gradient(90deg, #3b82f6, #8b5cf6); transition:width 0.3s; }
+
+    /* Сұрақ блогы */
+    #question-box { background:#f8fafc; border-radius:20px; padding:25px; margin:20px 0; border: 1px solid #e2e8f0; }
+    #q-text { font-size:1.4rem; margin-bottom:25px; line-height:1.4; color: #1e293b; }
+
+    /* Жауап нұсқалары */
+    .options-grid { display:flex; flex-direction:column; gap:12px; }
+    .option-item { 
+        background:#ffffff; 
+        padding:14px 20px; 
+        border-radius:14px; 
+        cursor:pointer; 
+        transition:all 0.2s; 
+        border:1px solid #e2e8f0; 
+        color: #475569;
+    }
+    .option-item:hover { background:#f1f5f9; border-color:#3b82f6; }
+
+    /* Дұрыс/бұрыс жауаптар түсі */
+    .option-item.correct { background:#d1fae5 !important; border-color:#10b981 !important; color: #065f46 !important; }
+    .option-item.wrong { background:#fee2e2 !important; border-color:#ef4444 !important; color: #991b1b !important; }
+
+    .quiz-footer { display:flex; justify-content:center; margin-top:20px; }
+    #next-btn { background:linear-gradient(135deg, #3b82f6, #8b5cf6); border:none; padding:12px 32px; border-radius:40px; color:white; font-size:1.1rem; font-weight:bold; cursor:pointer; transition:transform 0.2s; }
+    
+    .result-card { text-align:center; padding:20px; }
+    .score-circle { width:150px; height:150px; background:linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:30px auto; font-size:3rem; font-weight:bold; color:white; }
+    
+    .result-card button { background:#f1f5f9; border:1px solid #e2e8f0; padding:12px 24px; border-radius:30px; color:#475569; font-size:1rem; cursor:pointer; margin-top:20px; }
+    
+    @media (max-width:600px) { .app-container { padding:20px; } .grid-menu { grid-template-columns:repeat(2,1fr); } }
+</style>
 </head>
 <body>
 <div class="app-container">
