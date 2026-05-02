@@ -5,103 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Pro | IT Test Platform</title>
     <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    
-    /* Негізгі фонды ақшыл сұр немесе таза ақ қылу */
-    body { 
-        font-family: 'Segoe UI', Tahoma, sans-serif; 
-        background: #f8fafc; /* Өте ақшыл фон */
-        color: #1e293b; /* Мәтін түсі қою */
-        min-height:100vh; 
-        display:flex; 
-        justify-content:center; 
-        align-items:center; 
-        padding:20px; 
-    }
+:root {
+    --bg: #f8fafc;
+    --primary: #2563eb;
+    --white: #ffffff;
+    --text: #1e293b;
+    --success: #22c55e;
+    --error: #ef4444;
+    --shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
 
-    /* Контейнер түсі ақ */
-    .app-container { 
-        max-width:900px; 
-        width:100%; 
-        background:#ffffff; 
-        border-radius:24px; 
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
-        padding:30px; 
-    }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+}
 
-    .screen { transition:all 0.3s ease; }
-    .hidden { display:none; }
-    
-    header { text-align:center; margin-bottom:30px; }
-    
-    /* Тақырып түсін көкшіл градиент қалдырамыз */
-    h1 { 
-        font-size:2.5rem; 
-        background:linear-gradient(135deg, #2563eb, #7c3aed); 
-        -webkit-background-clip:text; 
-        -webkit-text-fill-color:transparent; 
-        margin-bottom:10px; 
-    }
+.app-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+}
 
-    .menu-card h3 { text-align:center; margin-bottom:20px; color:#475569; }
+.hidden { display: none; }
 
-    /* Батырмалар стилі */
-    .grid-menu { display:grid; grid-template-columns:repeat(auto-fit, minmax(120px,1fr)); gap:15px; }
-    .grid-menu button { 
-        background:#eff6ff; 
-        border:1px solid #dbeafe;
-        padding:15px; 
-        border-radius:16px; 
-        color:#2563eb; 
-        font-size:1.1rem; 
-        font-weight:bold; 
-        cursor:pointer; 
-        transition:all 0.2s; 
-    }
-    .grid-menu button:hover { background:#dbeafe; transform:translateY(-2px); }
+.screen {
+    animation: slideUp 0.4s ease-out;
+}
 
-    .quiz-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px; color: #64748b; }
-    
-    /* Прогресс бар */
-    .progress-bar { flex:1; height:10px; background:#f1f5f9; border-radius:10px; overflow:hidden; }
-    #bar-fill { width:0%; height:100%; background:linear-gradient(90deg, #3b82f6, #8b5cf6); transition:width 0.3s; }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    /* Сұрақ блогы */
-    #question-box { background:#f8fafc; border-radius:20px; padding:25px; margin:20px 0; border: 1px solid #e2e8f0; }
-    #q-text { font-size:1.4rem; margin-bottom:25px; line-height:1.4; color: #1e293b; }
+header { text-align: center; margin-bottom: 40px; }
+header h1 { color: var(--primary); font-size: 3rem; letter-spacing: -1px; margin: 0; }
+header p { color: #64748b; margin-top: 5px; }
 
-    /* Жауап нұсқалары */
-    .options-grid { display:flex; flex-direction:column; gap:12px; }
-    .option-item { 
-        background:#ffffff; 
-        padding:14px 20px; 
-        border-radius:14px; 
-        cursor:pointer; 
-        transition:all 0.2s; 
-        border:1px solid #e2e8f0; 
-        color: #475569;
-    }
-    .option-item:hover { background:#f1f5f9; border-color:#3b82f6; }
+.menu-card, .result-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+}
 
-    /* Дұрыс/бұрыс жауаптар түсі */
-    .option-item.correct { background:#d1fae5 !important; border-color:#10b981 !important; color: #065f46 !important; }
-    .option-item.wrong { background:#fee2e2 !important; border-color:#ef4444 !important; color: #991b1b !important; }
+.grid-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 30px;
+}
 
-    .quiz-footer { display:flex; justify-content:center; margin-top:20px; }
-    #next-btn { background:linear-gradient(135deg, #3b82f6, #8b5cf6); border:none; padding:12px 32px; border-radius:40px; color:white; font-size:1.1rem; font-weight:bold; cursor:pointer; transition:transform 0.2s; }
-    
-    .result-card { text-align:center; padding:20px; }
-    .score-circle { width:150px; height:150px; background:linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:30px auto; font-size:3rem; font-weight:bold; color:white; }
-    
-    .result-card button { background:#f1f5f9; border:1px solid #e2e8f0; padding:12px 24px; border-radius:30px; color:#475569; font-size:1rem; cursor:pointer; margin-top:20px; }
-    
-    @media (max-width:600px) { .app-container { padding:20px; } .grid-menu { grid-template-columns:repeat(2,1fr); } }
+button {
+    padding: 16px;
+    border: none;
+    border-radius: 16px;
+    background: var(--primary);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+.option-item {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option-item:hover { border-color: var(--primary); background: #f1f5f9; }
+.correct { background: var(--success) !important; color: white; border-color: var(--success); }
+.wrong { background: var(--error) !important; color: white; border-color: var(--error); }
 </style>
 </head>
 <body>
 <div class="app-container">
     <div id="home-screen" class="screen">
-        <header><h1>QUIZ PRO</h1><p>Кәсіби деңгейдегі білім тексеру жүйесі</p></header>
+        <header>
+                <h1>QUIZ PRO</h1>
+                <p>Кәсіби деңгейдегі білім тексеру жүйесі</p>
+            </header>
         <div class="menu-card"><h3>Тест блогын таңдаңыз:</h3><div class="grid-menu" id="block-list"></div></div>
     </div>
     <div id="quiz-screen" class="screen hidden">
