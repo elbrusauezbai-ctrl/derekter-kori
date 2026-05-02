@@ -129,27 +129,34 @@ const BLOCK_SIZE = 50;
     }
 
     function initQuiz(blockIdx) {
-        const start = blockIdx * BLOCK_SIZE;
-        const end = Math.min(start + BLOCK_SIZE, quizData.length);
-        currentQuestions = [];
-        for (let i = start; i < end; i++) {
-            const q = quizData[i];
-            const shuffledVariants = [...q.variants].sort(() => Math.random() - 0.5);
-            currentQuestions.push({
-                id: q.id,
-                text: q.question,
-                correct: q.correct,
-                variants: shuffledVariants
-            });
-        }
-        currentIndex = 0;
-        score = 0;
-        userAnswers = new Array(currentQuestions.length).fill(null);
-        document.getElementById('home-screen').classList.add('hidden');
-        document.getElementById('quiz-screen').classList.remove('hidden');
-        document.getElementById('result-screen').classList.add('hidden');
-        showQuestion();
+    const start = blockIdx * BLOCK_SIZE;
+    const end = Math.min(start + BLOCK_SIZE, quizData.length);
+    currentQuestions = [];
+
+    for (let i = start; i < end; i++) {
+        const q = quizData[i];
+        const shuffledVariants = [...q.variants].sort(() => Math.random() - 0.5);
+        currentQuestions.push({
+            id: q.id,
+            text: q.question,
+            correct: q.correct,
+            variants: shuffledVariants
+        });
     }
+    for (let i = currentQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [currentQuestions[i], currentQuestions[j]] = [currentQuestions[j], currentQuestions[i]];
+    }
+
+    currentIndex = 0;
+    score = 0;
+    userAnswers = new Array(currentQuestions.length).fill(null);
+    
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
+    showQuestion();
+}
 
     function showQuestion() {
         const q = currentQuestions[currentIndex];
