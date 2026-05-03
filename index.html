@@ -159,33 +159,21 @@ const BLOCK_SIZE = 50;
 }
 
     function showQuestion() {
-        const q = currentQuestions[currentIndex];
-        document.getElementById('q-text').innerText = q.text;
-        document.getElementById('progress-text').innerText = `Сұрақ: ${currentIndex+1}/${currentQuestions.length}`;
-        const percent = ((currentIndex+1) / currentQuestions.length) * 100;
-        document.getElementById('bar-fill').style.width = `${percent}%`;
-        
-        const container = document.getElementById('options-list');
-        container.innerHTML = '';
-        const saved = userAnswers[currentIndex];
-        
-        q.variants.forEach(opt => {
-            const div = document.createElement('div');
-            div.className = 'option-item';
-            div.innerText = opt;
-            if (saved !== null) {
-                if (opt === q.correct) div.classList.add('correct');
-                else if (opt === saved) div.classList.add('wrong');
-                div.style.pointerEvents = 'none';
-            } else {
-                div.onclick = () => checkAnswer(div, opt, q.correct);
-            }
-            container.appendChild(div);
-        });
-        
-        const nextBtn = document.getElementById('next-btn');
-        if (saved !== null) nextBtn.classList.remove('hidden');
-        else nextBtn.classList.add('hidden');
+    const q = currentQuestions[currentIndex];
+    document.getElementById('q-text').innerText = q.question || q.text;
+    document.getElementById('progress-text').innerText = `Сұрақ: ${currentIndex+1}/${currentQuestions.length}`;
+    const percent = ((currentIndex+1) / currentQuestions.length) * 100;
+    document.getElementById('bar-fill').style.width = `${percent}%`;
+    const container = document.getElementById('options-list');
+    container.innerHTML = '';
+    const saved = userAnswers[currentIndex];
+    if (saved === null) {
+        container.style.pointerEvents = 'none';
+        container.style.opacity = '0.6'; 
+        setTimeout(() => {
+            container.style.pointerEvents = 'auto';
+            container.style.opacity = '1';
+        }, 200); 
     }
 
     function checkAnswer(element, selected, correct) {
