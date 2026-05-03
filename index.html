@@ -176,6 +176,26 @@ const BLOCK_SIZE = 50;
         }, 200); 
     }
 
+    q.variants.forEach(opt => {
+        const div = document.createElement('div');
+        div.className = 'option-item';
+        div.innerText = opt;
+        
+        if (saved !== null) {
+            if (opt === q.correct) div.classList.add('correct');
+            else if (opt === saved) div.classList.add('wrong');
+            div.style.pointerEvents = 'none';
+        } else {
+            div.onclick = () => checkAnswer(div, opt, q.correct);
+        }
+        container.appendChild(div);
+    });
+    
+    const nextBtn = document.getElementById('next-btn');
+    if (saved !== null) nextBtn.classList.remove('hidden');
+    else nextBtn.classList.add('hidden');
+}
+
     function checkAnswer(element, selected, correct) {
         const allOptions = document.querySelectorAll('.option-item');
         allOptions.forEach(el => el.style.pointerEvents = 'none');
